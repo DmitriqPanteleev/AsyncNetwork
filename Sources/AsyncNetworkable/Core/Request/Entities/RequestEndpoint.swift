@@ -35,8 +35,8 @@ public protocol RequestEndpoint {
     /// Тело запроса (приводится к строке)
     var body: DynamicDictionary? { get }
     
-    /// Данные для отправки файла
-    var fileData: FileData? { get }
+    /// Данные для отправки запроса типа "multipart/form-data"
+    var fileData: MultipartFormData? { get }
 }
 
 public extension RequestEndpoint {
@@ -52,7 +52,7 @@ public extension RequestEndpoint {
         nil
     }
     
-    var fileData: FileData? {
+    var fileData: MultipartFormData? {
         nil
     }
     

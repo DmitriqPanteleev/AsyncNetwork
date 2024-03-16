@@ -31,7 +31,11 @@ struct RequestFormatter {
         request.httpMethod = endpoint.method.rawValue
         request.allHTTPHeaderFields = endpoint.headers
         
-        try buildBody(with: endpoint.body, for: &request)
+        if let data = endpoint.fileData {
+            MultipartFormBuilder.build(&request, with: data)
+        } else {
+            try buildBody(with: endpoint.body, for: &request)
+        }
         
         return request
     }
