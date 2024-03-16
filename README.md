@@ -95,5 +95,5 @@ let package = Package(
 ```
 
 ## Лицензия
-Данная библиотека лицензирована MIT-лицензией.
+Данная библиотека лицензирована MIT-лицензией. Для более детальной информации смотреть [лицензию](https://github.com/DmitriqPanteleev/AsyncNetworkable/blob/main/LICENSE)
 
