@@ -58,7 +58,7 @@ struct AuthService {
 
 ### Отправка файлов
 Для отправки файла (запрос формата "multipart/form-data") достаточно реализовать для конкретного эндпоинта свойство `fileData` протокола `RequestEndpoint`:
-```
+```swift
     var fileData: MultipartFormData? {
         let field = MultipartFormField(name: name,
                                        data: data,
