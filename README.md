@@ -9,10 +9,6 @@
 
 ## Примеры использования
 ### Основной слой
-Прежде всего не забудьте импортировать модуль
-```swift
-import AsyncNetworkable
-```
 Над данной абстракцией можно написать любой удобный для использования сервис. Прежде всего необходимо описать эндпоинты, которые будет использовать сервис:
 
 ```swift
@@ -60,6 +56,18 @@ struct AuthService {
 }
 ```
 
+### Отправка файлов
+Для отправки файла (запрос формата "multipart/form-data") достаточно реализовать для конкретного эндпоинта свойство `fileData` протокола `RequestEndpoint`:
+```
+    var fileData: MultipartFormData? {
+        let field = MultipartFormField(name: name,
+                                       data: data,
+                                       fileName: fileName,
+                                       mimeType: .imagePNG)
+        return MultipartFormData(fields: [field])
+    }
+```
+
 ### Рефреш
 Для доступности механизма рефреша необходимо и достаточно передать поле `refreshOptions` в инициализатор. Таким образом, гарантируется существование свойства `refreshStream`, к которому можно обращаться и выполнять любую работу при получении новых данных:
 ```swift
@@ -77,6 +85,27 @@ struct AuthService {
     }
 ```
 Стоит заметить, что при выполнении большого объема работы в данном контексте желательно сделать более значительный `timeoutInterval` в передаваемых `refreshOptions`.
+
+### События и их обработка
+Основной сервис в течение своей работы рассылает события типа `NetworkableEvent` всем инстансам, подписанным на протокол `Eventable` и добавленным в `EventManager`. `EventManager` передается в инициализатор основного сервиса.
+
+Одним из таких инстансов является `NetworkableLogger`. Это класс, логирующий весь жизненный цикл запросов. Есть также возможность логировать в журнал событий устройства.
+```swift
+    let logger = NetworkableLogger(systemLogsEnabled: false)
+    let manager = EventManager(receivers: [logger])
+    
+    let service = AsyncNetworkable(options: .default,
+                                   eventManager: manager)
+```
+В случае, если вас не устраивает стандартная реализация логгера или вам необходим еще один обработчик событий из основного сервиса, то вы можете реализовать свой обработчик, подписав его на протокол `Eventable` и реализовав метод `func handle(event: NetworkableEvent)`:
+```swift
+final class CustomLogger: Eventable {
+    func handle(event: NetworkableEvent) {
+        // work with events here
+    }
+}
+```
+После реализации необходимо добавить этот инстанс в `EventManager`, передаваемый в основной сервис
 
 ## Установка
 ### Swift Package Manager
