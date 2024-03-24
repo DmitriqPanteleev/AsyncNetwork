@@ -12,7 +12,7 @@ struct RequestFormatter {
     func build(from endpoint: RequestEndpoint,
                cachePolicy: RequestCachePolicy,
                timeoutInterval: TimeInterval,
-               extraHeaders: DynamicDictionary) throws -> URLRequest
+               extraHeaders: RequestHeaders) throws -> URLRequest
     {
         var urlComponents = URLComponents()
         urlComponents.scheme = endpoint.scheme.rawValue
@@ -29,7 +29,8 @@ struct RequestFormatter {
                                  timeoutInterval: timeoutInterval)
         
         request.httpMethod = endpoint.method.rawValue
-        request.allHTTPHeaderFields = endpoint.headers
+        
+        buildHeaders(with: endpoint.headers, extra: extraHeaders, for: &request)
         
         if let data = endpoint.fileData {
             MultipartFormBuilder.build(&request, with: data)
@@ -61,5 +62,18 @@ private extension RequestFormatter {
         } catch {
             throw NetworkableError.encode(error)
         }
+    }
+    
+    func buildHeaders(with headers: RequestHeaders?,
+                      extra: RequestHeaders,
+                      for request: inout URLRequest)
+    {
+        guard let headers = headers else {
+            request.allHTTPHeaderFields = extra
+            return
+        }
+        
+        let mergedHeaders = headers.merging(extra) { inner, _ in inner }
+        request.allHTTPHeaderFields = mergedHeaders
     }
 }

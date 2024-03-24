@@ -19,6 +19,10 @@ public struct NetworkableConfiguration {
     public let cachePolicy: RequestCachePolicy
     
     /// HTTP-хэдеры для всех запросов, отправляемых из сервиса, в который передается конфигурация
+    ///
+    /// При заполнении данного свойства необходимо помнить, что при наличии заголовка с идентичным ключом
+    /// у конкретного экземпляра `RequestEndpoint`,  будет использоваться значение из этого экземпляра,
+    /// а не данного свойства
     public var extraHeaders: RequestHeaders
     
     public init(identifier: String,
