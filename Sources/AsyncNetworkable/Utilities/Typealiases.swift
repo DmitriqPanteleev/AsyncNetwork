@@ -27,3 +27,7 @@ public typealias LoggerCompletion = (LogMessage) -> Void
 // MARK: Internal names
 typealias SessionResponse = (Data, Response)
 typealias StatusCodes = ClosedRange<Int>
+
+typealias MimeHexArray = [UInt8]
+typealias Mime = String
+typealias MimeSignature = (MimeHexArray, Mime)

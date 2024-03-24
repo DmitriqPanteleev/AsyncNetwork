@@ -2,6 +2,7 @@
 import Foundation
 
 extension URLRequest {
+    /// Запрос в формате cURL
     public func cURL(pretty: Bool = true) -> String {
         let newLine = pretty ? "\\\n" : ""
         let method = (pretty ? "--request " : "-X ") + "\(self.httpMethod ?? "GET") \(newLine)"

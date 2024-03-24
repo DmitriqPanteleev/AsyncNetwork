@@ -11,10 +11,10 @@ struct MultipartFormBuilder {
         
         data.fields.forEach { field in
             switch field.type {
-            case .data(let fileData, let fileName, let mimeType):
+            case let .data(fileData, fileName, mimeType):
                 let data = convertFileData(fieldName: field.name,
                                            fileName: fileName,
-                                           mimeType: mimeType.rawValue,
+                                           mimeType: mimeType?.rawValue,
                                            fileData: fileData,
                                            using: data.boundary)
                 httpBody.append(data)
@@ -42,7 +42,7 @@ private extension MultipartFormBuilder {
     
     static func convertFileData(fieldName: String,
                                 fileName: String,
-                                mimeType: String,
+                                mimeType: String?,
                                 fileData: Data,
                                 using boundary: String) -> Data
     {
@@ -50,7 +50,13 @@ private extension MultipartFormBuilder {
         
         data.appendString("--\(boundary)\r\n")
         data.appendString("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n")
-        data.appendString("Content-Type: \(mimeType)\r\n\r\n")
+        
+        if let mime = mimeType {
+            data.appendString("Content-Type: \(mime)\r\n\r\n")
+        } else {
+            data.appendString("Content-Type: \(fileData.mimeType)\r\n\r\n")
+        }
+        
         data.append(fileData)
         data.appendString("\r\n")
         

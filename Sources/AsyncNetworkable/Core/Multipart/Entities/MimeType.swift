@@ -1,6 +1,7 @@
 
 import Foundation
 
+/// Тип данных, позволяющий жестко задать тип отправляемого поля
 public enum MimeType: String {
     // MARK: Audio
     case audioMP4 = "audio/mp4"

@@ -28,7 +28,7 @@ public struct MultipartFormField {
         self.type = .value(value)
     }
     
-    public init(name: String, data: Data, fileName: String, mimeType: MimeType) {
+    public init(name: String, data: Data, fileName: String, mimeType: MimeType? = nil) {
         self.name = name
         self.type = .data(data, fileName: fileName, mimeType: mimeType)
     }
@@ -43,8 +43,9 @@ extension MultipartFormField {
         ///
         /// Для корректной передачи данных необходимо указать название файла и его MIME-тип
         ///
-        /// MIME-тип - Специальная текстовая метка, которая прикрепляется к передаваемому по протоколу HTTP объекту и описывает тип этого объекта
-        case data(Data, fileName: String, mimeType: MimeType)
+        /// MIME-тип - Специальная текстовая метка, которая прикрепляется к передаваемому по протоколу HTTP объекту и описывает тип этого объекта.
+        /// В случае отсутствия данного аргумента MIME-тип будет определяться автоматически из передаваемых данных
+        case data(Data, fileName: String, mimeType: MimeType?)
         
         /// Передача строки в запросе типа "multipart/form-data"
         case value(String)

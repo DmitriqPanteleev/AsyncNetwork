@@ -55,3 +55,35 @@ extension Data {
         String(data: self, encoding: .utf8) ?? "Have no data in response"
     }
 }
+
+extension Data {
+    static let mimeSignatures: [MimeSignature] = [
+        // MARK: Images
+        ([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A], "image/png"),
+        ([0xFF, 0xD8, 0xFF, 0xDB, 0xE0, 0x4A, 0x46, 0x49, 0xE1, 0x45, 0x78, 0x69, 0x66], "image/jpeg"),
+        ([0x47, 0x49, 0x46, 0x38, 0x37, 0x39, 0x61], "image/gif"),
+        
+        // MARK: Audio
+        ([0xF2, 0xF3, 0xFB], "audio/mpeg"),
+        
+        // MARK: Video
+        ([0x00, 0x01, 0xB3], "video/mpeg"),
+        
+        // MARK: Application
+        ([0x25, 0x44, 0x2D], "application/pdf"),
+        ([0x7B, 0x5C, 0x72, 0x74, 0x31], "application/rtf"),
+        
+        // MARK: Text
+        ([0x3c, 0x3f, 0x78, 0x6d, 0x6c, 0x20], "text/xml")
+    ]
+    
+    var mimeType: String {
+        let tenFirstBytes = Array(subdata(in: 0..<10))
+        
+        let mimeSignature = Data.mimeSignatures.filter { signature in
+            tenFirstBytes.starts(with: signature.0)
+        }.first
+        
+        return mimeSignature?.1 ?? "application/octet-stream"
+    }
+}
