@@ -93,10 +93,11 @@ extension AsyncNetwork {
             
             do {
                 try await refresher?.refresh()
-                return try await loadRequest(endpoint: endpoint, shouldRetry: false)
             } catch {
                 throw NetworkError.invalidCredentials
             }
+            
+            return try await loadRequest(endpoint: endpoint, shouldRetry: false)
         }
         
         if StatusCodes.successCodes.contains(httpResponse.statusCode) {
