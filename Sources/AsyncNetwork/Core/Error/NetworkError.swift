@@ -19,6 +19,9 @@ public enum NetworkError: Swift.Error {
     
     /// Отражает код ошибки
     case unexpectedStatusCode(response: EventableResponse)
+    
+    /// Указывает на неудачную попытку рефреша
+    case invalidCredentials
 }
 
 extension NetworkError {
@@ -37,6 +40,9 @@ extension NetworkError {
             "Task was cancelled"
         case .unexpectedStatusCode(let response):
             "Request error\n\(response)"
+        case .invalidCredentials:
+            "Refresh's task has been failed"
+
         }
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 actor Refresher {
     // MARK: Delegating
-    private weak var service: AsyncNetworkable?
+    private weak var service: AsyncNetwork?
     
     // MARK: Internal
     private var refreshTask: Task<Data, Error>?
@@ -18,7 +18,7 @@ actor Refresher {
     // MARK: External
     private var options: RefreshOptions
     
-    init(service: AsyncNetworkable?, options: RefreshOptions, continuation: RefreshStream.Continuation?) {
+    init(service: AsyncNetwork?, options: RefreshOptions, continuation: RefreshStream.Continuation?) {
         self.service = service
         self.options = options
         self.continuation = continuation
@@ -33,13 +33,10 @@ actor Refresher {
         }
         
         let task = Task { () throws -> Data in
-            defer {
-                options.repeatsCount -= 1
-                refreshTask = nil
-            }
+            defer { refreshTask = nil }
             
             guard let data = try await service?.sendRequest(with: options.endpoint) else {
-                throw NetworkError.transport(options.endpoint)
+                throw NetworkError.invalidCredentials
             }
             
            return data

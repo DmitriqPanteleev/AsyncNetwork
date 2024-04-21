@@ -87,14 +87,16 @@ extension AsyncNetwork {
         
         guard httpResponse.statusCode != refreshOptions?.statusCode else {
             
-            guard shouldRetry, let options = refreshOptions else {
-                throw NetworkError.unexpectedStatusCode(response: eventResponse)
+            guard shouldRetry else {
+                throw NetworkError.invalidCredentials
             }
             
-            try await refresher?.refresh()
-            
-            return try await loadRequest(endpoint: endpoint,
-                                         shouldRetry: options.repeatsCount > 0)
+            do {
+                try await refresher?.refresh()
+                return try await loadRequest(endpoint: endpoint, shouldRetry: false)
+            } catch {
+                throw NetworkError.invalidCredentials
+            }
         }
         
         if StatusCodes.successCodes.contains(httpResponse.statusCode) {
