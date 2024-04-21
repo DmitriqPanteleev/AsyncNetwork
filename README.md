@@ -1,4 +1,4 @@
-# AsyncNetworkable
+# AsyncNetwork
 [![Language](https://img.shields.io/static/v1.svg?label=language&message=Swift%205&color=FA7343&logo=swift&style=flat-square)](https://swift.org)
 [![Platform](https://img.shields.io/static/v1.svg?label=platforms&message=iOS%20&logo=apple&style=flat-square)](https://apple.com)
 [![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
@@ -44,9 +44,9 @@ enum AuthEndpoint: RequestEndpoint {
 
 ```swift
 struct AuthService {
-    let client: AsyncNetworkable
+    let client: AsyncNetwork
     
-    init(client: AsyncNetworkable) {
+    init(client: AsyncNetwork) {
         self.client = client
     }
     
@@ -74,7 +74,7 @@ struct AuthService {
 ```swift
     let refreshTask: Task<Void, Error>
     
-    init(client: AsyncNetworkable) {
+    init(client: AsyncNetwork) {
         self.client = client
         
         self.refreshTask = Task {
@@ -95,7 +95,7 @@ struct AuthService {
     let logger = NetworkableLogger(systemLogsEnabled: false)
     let manager = EventManager(receivers: [logger])
     
-    let service = AsyncNetworkable(options: .default,
+    let service = AsyncNetwork(options: .default,
                                    eventManager: manager)
 ```
 В случае, если вас не устраивает стандартная реализация логгера или вам необходим еще один обработчик событий из основного сервиса, то вы можете реализовать свой обработчик, подписав его на протокол `Eventable` и реализовав метод `func handle(event: NetworkableEvent)`:
@@ -112,18 +112,18 @@ final class CustomLogger: Eventable {
 ### Swift Package Manager
 [Swift Package Manager](https://swift.org/package-manager/) (SPM) - это инструмент для управления распространением кода Swift, а также зависимостями C-семейства. Начиная с Xcode 11, SPM интегрирован в Xcode.
 
-Данная библиотека поддерживает SPM. Для установки необходимо открыть проект в XCode, нажать `File` -> `Swift Packages` -> `Add Package Dependency` и ввести [URL данной библиотеки](https://github.com/DmitriqPanteleev/AsyncNetworkable.git).
+Данная библиотека поддерживает SPM. Для установки необходимо открыть проект в XCode, нажать `File` -> `Swift Packages` -> `Add Package Dependency` и ввести [URL данной библиотеки](https://github.com/DmitriqPanteleev/AsyncNetwork.git).
 
-Если вы явялетесь автором библиотеки/фреймворка и используете AsyncNetworkable в качестве зависимости, то вам будет достаточно обновлять свой файл `Package.swift` внутри вашего продукта:
+Если вы явялетесь автором библиотеки/фреймворка и используете AsyncNetwork в качестве зависимости, то вам будет достаточно обновлять свой файл `Package.swift` внутри вашего продукта:
 ```swift
 let package = Package(
     dependencies: [
-        .package(url: "https://github.com/DmitriqPanteleev/AsyncNetworkable.git", from: "1.0.0")
+        .package(url: "https://github.com/DmitriqPanteleev/AsyncNetwork.git", from: "1.0.0")
     ],
     // ...
 )
 ```
 
 ## Лицензия
-Данная библиотека лицензирована MIT-лицензией. Для более детальной информации смотреть [лицензию](https://github.com/DmitriqPanteleev/AsyncNetworkable/blob/main/LICENSE)
+Данная библиотека лицензирована MIT-лицензией. Для более детальной информации смотреть [лицензию](https://github.com/DmitriqPanteleev/AsyncNetwork/blob/main/LICENSE)
 

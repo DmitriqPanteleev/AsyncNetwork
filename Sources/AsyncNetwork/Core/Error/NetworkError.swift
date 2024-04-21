@@ -1,6 +1,6 @@
 import Foundation
 
-/// Тип данных, отражающий возможные ошибки, которые может поймать  AsyncNetworkable
+/// Тип данных, отражающий возможные ошибки, которые может поймать  AsyncNetwork
 public enum NetworkError: Swift.Error {
     /// Указывает на невозможность кодировки данных внутри структуры Endpoint
     case encode(Swift.Error)

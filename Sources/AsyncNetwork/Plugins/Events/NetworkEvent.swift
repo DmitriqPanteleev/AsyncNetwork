@@ -1,7 +1,7 @@
 import Foundation
 
 
-/// Тип события жизненного цикла сервиса AsyncNetworkable
+/// Тип события жизненного цикла сервиса AsyncNetwork
 ///
 /// Данные события может отлавливать любой тип, подписанный на протокол `Eventable` и помещенный в `EventManager`
 public enum NetworkEvent {

@@ -38,9 +38,9 @@ public struct NetworkConfiguration {
     
     /// Свойство для создания дефолтной конфигурации
     public static var `default`: Self {
-        NetworkConfiguration(identifier: "AsyncNetworkable",
-                                 timeoutInterval: 60.0,
-                                 cachePolicy: .useProtocolCachePolicy,
-                                 extraHeaders: [:])
+        NetworkConfiguration(identifier: "AsyncNetwork",
+                             timeoutInterval: 60.0,
+                             cachePolicy: .useProtocolCachePolicy,
+                             extraHeaders: [:])
     }
 }
