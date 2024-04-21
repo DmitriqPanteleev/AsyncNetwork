@@ -22,7 +22,7 @@ struct RequestFormatter {
         
         buildQuery(with: endpoint.query, for: &urlComponents)
         
-        guard let url = urlComponents.url else { throw NetworkableError.invalidUrl(endpoint) }
+        guard let url = urlComponents.url else { throw NetworkError.invalidUrl(endpoint) }
         
         var request = URLRequest(url: url,
                                  cachePolicy: cachePolicy,
@@ -60,7 +60,7 @@ private extension RequestFormatter {
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
         } catch {
-            throw NetworkableError.encode(error)
+            throw NetworkError.encode(error)
         }
     }
     

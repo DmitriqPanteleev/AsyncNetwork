@@ -13,14 +13,14 @@ import Combine
 /// Данный сервис также поддерживает систему обновления данных для авторизации. Чтобы подключить данную систему,
 /// необходимо передать в иниициализатор параметр `refreshOptions`. По-умолчанию данный параметр равен `nil`,
 /// что говорит о выключенном состоянии системы обновления данных для авторизации
-public final class AsyncNetworkable {
+public final class AsyncNetwork {
     // MARK: Internal
     private let session: URLSession
     private let formatter: RequestFormatter
     
     // MARK: External
     private let eventManager: EventManager?
-    private let options: NetworkableConfiguration
+    private let options: NetworkConfiguration
     
     // MARK: Refresh
     private var refresher: Refresher?
@@ -41,7 +41,7 @@ public final class AsyncNetworkable {
     /// ```
     public var refreshStream: RefreshStream?
     
-    public init(options: NetworkableConfiguration,
+    public init(options: NetworkConfiguration,
                 refreshOptions: RefreshOptions? = nil,
                 eventManager: EventManager? = nil)
     {
@@ -69,7 +69,7 @@ public final class AsyncNetworkable {
     }
 }
 
-extension AsyncNetworkable {
+extension AsyncNetwork {
     private func loadRequest(endpoint: RequestEndpoint, shouldRetry: Bool = true) async throws -> Data {
         let request = try formatter.build(from: endpoint,
                                           cachePolicy: options.cachePolicy,
@@ -79,7 +79,7 @@ extension AsyncNetworkable {
         let response: SessionResponse = try await session.data(for: request)
         
         guard let httpResponse = response.1 as? HTTPURLResponse else {
-            throw NetworkableError.transport(endpoint)
+            throw NetworkError.transport(endpoint)
         }
         
         let eventRequest = sendEventable(request: request, with: endpoint)
@@ -88,7 +88,7 @@ extension AsyncNetworkable {
         guard httpResponse.statusCode != refreshOptions?.statusCode else {
             
             guard shouldRetry, let options = refreshOptions else {
-                throw NetworkableError.unexpectedStatusCode(response: eventResponse)
+                throw NetworkError.unexpectedStatusCode(response: eventResponse)
             }
             
             try await refresher?.refresh()
@@ -100,12 +100,12 @@ extension AsyncNetworkable {
         if StatusCodes.successCodes.contains(httpResponse.statusCode) {
             return response.0
         } else {
-            throw NetworkableError.unexpectedStatusCode(response: eventResponse)
+            throw NetworkError.unexpectedStatusCode(response: eventResponse)
         }
     }
 }
 
-extension AsyncNetworkable {
+extension AsyncNetwork {
     private func setupRefresher() {
         guard let refreshOptions = self.refreshOptions else { return }
         
@@ -117,7 +117,7 @@ extension AsyncNetworkable {
     }
 }
 
-extension AsyncNetworkable {
+extension AsyncNetwork {
     func sendEventable() {
         eventManager?.notifyAll(with: .initial(options.identifier))
     }

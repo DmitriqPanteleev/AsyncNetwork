@@ -15,7 +15,7 @@ public final class NetworkableLogger: Eventable {
         self.completion = completion
     }
     
-    public func handle(event: NetworkableEvent) {
+    public func handle(event: NetworkEvent) {
         switch event {
         case .initial(let serviceId):
             if serviceIdentifier == nil {
@@ -49,7 +49,7 @@ private extension NetworkableLogger {
         completion(message)
     }
     
-    func log(error: NetworkableError) {
+    func log(error: NetworkError) {
         consoleLog(type: .error, message: error.description)
         printLog(message: error.description)
         completion(error.description)

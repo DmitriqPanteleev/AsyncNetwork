@@ -39,7 +39,7 @@ actor Refresher {
             }
             
             guard let data = try await service?.sendRequest(with: options.endpoint) else {
-                throw NetworkableError.transport(options.endpoint)
+                throw NetworkError.transport(options.endpoint)
             }
             
            return data

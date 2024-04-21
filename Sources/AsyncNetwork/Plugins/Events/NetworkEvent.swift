@@ -4,7 +4,7 @@ import Foundation
 /// Тип события жизненного цикла сервиса AsyncNetworkable
 ///
 /// Данные события может отлавливать любой тип, подписанный на протокол `Eventable` и помещенный в `EventManager`
-public enum NetworkableEvent {
+public enum NetworkEvent {
     /// Событие, отражающее инициализацию сервиса
     case initial(_: ServicIdentifier)
     
@@ -15,7 +15,7 @@ public enum NetworkableEvent {
     case response(_: EventableResponse)
     
     /// Событие, отражающее ошибку
-    case error(_: NetworkableError)
+    case error(_: NetworkError)
     
     /// Кастомное событие
     /// 

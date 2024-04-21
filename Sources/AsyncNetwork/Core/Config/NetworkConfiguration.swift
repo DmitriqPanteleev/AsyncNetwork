@@ -8,7 +8,7 @@ import Foundation
 ///  - политика кэширования (по-умолчанию зависит от используемого протокола)
 ///
 ///  При отсутствии необходимости конфигурировать сервис можно использовать статическое свойство `default`.
-public struct NetworkableConfiguration {
+public struct NetworkConfiguration {
     /// Идентификатор, который будет присвоен сервису при инициализации
     public let identifier: String
     
@@ -38,7 +38,7 @@ public struct NetworkableConfiguration {
     
     /// Свойство для создания дефолтной конфигурации
     public static var `default`: Self {
-        NetworkableConfiguration(identifier: "AsyncNetworkable",
+        NetworkConfiguration(identifier: "AsyncNetworkable",
                                  timeoutInterval: 60.0,
                                  cachePolicy: .useProtocolCachePolicy,
                                  extraHeaders: [:])

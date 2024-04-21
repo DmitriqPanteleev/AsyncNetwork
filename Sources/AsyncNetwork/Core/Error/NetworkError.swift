@@ -1,7 +1,7 @@
 import Foundation
 
 /// Тип данных, отражающий возможные ошибки, которые может поймать  AsyncNetworkable
-public enum NetworkableError: Swift.Error {
+public enum NetworkError: Swift.Error {
     /// Указывает на невозможность кодировки данных внутри структуры Endpoint
     case encode(Swift.Error)
     
@@ -21,7 +21,7 @@ public enum NetworkableError: Swift.Error {
     case unexpectedStatusCode(response: EventableResponse)
 }
 
-extension NetworkableError {
+extension NetworkError {
     /// Текстовое описание ошибки
     public var description: String {
         switch self {
@@ -41,8 +41,8 @@ extension NetworkableError {
     }
 }
 
-extension NetworkableError: Equatable {
-    public static func == (lhs: NetworkableError, rhs: NetworkableError) -> Bool {
+extension NetworkError: Equatable {
+    public static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
         switch (lhs, rhs) {
         case (let l, let r):
             l.description == r.description

@@ -9,7 +9,7 @@ public final class EventManager {
         self.receivers = receivers
     }
     
-    func notifyAll(with event: NetworkableEvent) {
+    func notifyAll(with event: NetworkEvent) {
         receivers.forEach { receiver in
             receiver.handle(event: event)
         }

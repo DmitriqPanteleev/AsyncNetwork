@@ -1,7 +1,7 @@
 import XCTest
-@testable import AsyncNetworkable
+@testable import AsyncNetwork
 
-final class AsyncNetworkableTests: XCTestCase {
+final class AsyncNetworkTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest
