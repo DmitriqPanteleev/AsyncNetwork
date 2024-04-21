@@ -49,8 +49,10 @@ private extension RequestFormatter {
         components.percentEncodedQueryItems = []
         
         for query in dictionary {
-            let encodedValue = query.value.addingPercentEncoding(withAllowedCharacters: .alphanumerics)
-            components.percentEncodedQueryItems?.append(URLQueryItem(name: query.key, value: encodedValue))
+            if let encodedKey = query.key.addingPercentEncoding(withAllowedCharacters: .queryAllowed) {
+                let encodedValue = query.value.addingPercentEncoding(withAllowedCharacters: .queryAllowed)
+                components.percentEncodedQueryItems?.append(URLQueryItem(name: encodedKey, value: encodedValue))
+            }
         }
     }
     
